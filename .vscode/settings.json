@@ -1,0 +1,29 @@
+{
+  "editor.defaultFormatter": "Dart-Code.dart-code",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "cSpell.words": [
+    "Hamilima", "Hami"
+  ],
+  "editor.inlayHints.fontFamily": "Fira Code",
+  "editor.fontFamily": "Fira Code",
+  "editor.codeLensFontFamily": "Fira Code",
+  "scm.inputFontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.fontWeight": "normal",
+  "editor.suggestFontSize": 12,
+  "markdown.preview.fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe WPC',  'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif",
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "bloc.newBlocTemplate.type": "simple",
+  "bloc.newCubitTemplate.type": "simple",
+  "editor.foldingImportsByDefault": true,
+  "bloc.newBlocTemplate.createDirectory": true,
+  "material-icon-theme.activeIconPack": "none"
+}
