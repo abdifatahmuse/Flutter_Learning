@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learning/Day_2_Actions.dart';
 import 'package:learning/day_1_input.dart';
+import 'package:learning/location.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,11 +36,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _counter = 0, _selectedIndex = 0;
 
   void _incrementCounter() {
     setState(() {
       _counter++;
+    });
+  }
+
+  void _onNavClick(int index) {
+    setState(() {
+      _selectedIndex = index;
     });
   }
 
@@ -48,38 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          top: 20,
-          bottom: 70,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            const InputFields(),
-            const SizedBox(
-              height: 25,
-            ),
-            const ActionsWidgets(),
-          ],
-        ),
-      ),
+      body: switch (_selectedIndex) {
+        0 => WidgetsScreen(counter: _counter),
+        1 => const Driver(),
+        _ => const SizedBox.shrink(),
+      },
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,6 +78,99 @@ class _MyHomePageState extends State<MyHomePage> {
             child: const Icon(Icons.add),
           ),
         ],
+      ),
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: _onNavClick,
+        selectedIndex: _selectedIndex,
+        indicatorShape: const StadiumBorder(),
+        destinations: [
+          NavigationDestination(
+            icon: Icon(
+              CupertinoIcons.home,
+              color: (Theme.of(context).brightness == Brightness.light)
+                  ? Colors.blueGrey.shade200
+                  : Colors.blueGrey.shade700,
+            ),
+            label: 'Dashboard',
+            selectedIcon: const Icon(
+              CupertinoIcons.home,
+            ),
+          ),
+          NavigationDestination(
+            icon: Icon(
+              CupertinoIcons.location,
+              color: (Theme.of(context).brightness == Brightness.light)
+                  ? Colors.blueGrey.shade200
+                  : Colors.blueGrey.shade700,
+            ),
+            selectedIcon: const Icon(
+              CupertinoIcons.location_fill,
+            ),
+            label: 'Search',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class WidgetsScreen extends StatefulWidget {
+  const WidgetsScreen({
+    super.key,
+    required int counter,
+  }) : _counter = counter;
+
+  final int _counter;
+
+  @override
+  State<WidgetsScreen> createState() => _WidgetsScreenState();
+}
+
+class _WidgetsScreenState extends State<WidgetsScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // keyboard dismiss globally
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text("Widgets"),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.only(
+            left: 15,
+            right: 15,
+            top: 20,
+            bottom: 70,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '${widget._counter}',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              const InputFields(),
+              const SizedBox(
+                height: 25,
+              ),
+              const ActionsWidgets(),
+            ],
+          ),
+        ),
       ),
     );
   }
